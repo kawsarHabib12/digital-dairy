@@ -1,3 +1,4 @@
+@import 'leaflet/dist/leaflet.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,4 +26,23 @@
   background-image: linear-gradient(#F0ECE1 1px, transparent 1px);
   background-size: 100% 28px;
   line-height: 28px;
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  z-index: 10 !important;
+}
+
+.custom-marker-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #92400e;
+  color: white;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 9999px;
+  border: 2px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }

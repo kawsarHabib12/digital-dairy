@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import DiaryEditorPage from './pages/DiaryEditorPage';
 import MemoryDetailPage from './pages/MemoryDetailPage';
 import TimelinePage from './pages/TimelinePage';
+import MemoryMapPage from './pages/MemoryMapPage';
 import LoadingState from './components/LoadingState';
 
 // Protected Route Component
@@ -76,7 +77,7 @@ export default function App() {
               path="/map"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <MemoryMapPage />
                 </ProtectedRoute>
               }
             />
