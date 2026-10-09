@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, User, Mail, Lock, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
+import { BookOpen, User, Mail, Lock, ArrowRight, AlertCircle, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function RegisterPage() {
@@ -8,6 +8,8 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const { register } = useAuth();
@@ -114,13 +116,21 @@ export default function RegisterPage() {
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-diary-border bg-parchment-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-800/30 focus:border-amber-800 transition-all text-diary-ink placeholder:text-diary-muted/60"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-diary-border bg-parchment-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-800/30 focus:border-amber-800 transition-all text-diary-ink placeholder:text-diary-muted/60"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-diary-muted hover:text-diary-ink transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
@@ -133,13 +143,21 @@ export default function RegisterPage() {
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Repeat your password"
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-diary-border bg-parchment-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-800/30 focus:border-amber-800 transition-all text-diary-ink placeholder:text-diary-muted/60"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-diary-border bg-parchment-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-800/30 focus:border-amber-800 transition-all text-diary-ink placeholder:text-diary-muted/60"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-diary-muted hover:text-diary-ink transition-colors"
+                >
+                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
