@@ -26,6 +26,6 @@ export class Category {
   @OneToMany(() => Memory, (memory) => memory.category)
   memories: Memory[];
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
 }

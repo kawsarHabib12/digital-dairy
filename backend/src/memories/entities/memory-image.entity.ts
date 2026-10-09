@@ -25,6 +25,6 @@ export class MemoryImage {
   @Column({ type: 'text' })
   imageUrl: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
 }

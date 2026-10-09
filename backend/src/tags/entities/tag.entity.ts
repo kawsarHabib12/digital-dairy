@@ -20,6 +20,6 @@ export class Tag {
   @ManyToMany(() => Memory, (memory) => memory.tags)
   memories: Memory[];
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
 }

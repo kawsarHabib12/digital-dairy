@@ -26,7 +26,7 @@ const ALL_ENTITIES = [
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService): TypeOrmModuleOptions => {
-        const dbType = config.get<string>('DB_TYPE', 'sqlite');
+        const dbType = config.get<string>('DB_TYPE', 'better-sqlite3');
 
         if (dbType === 'postgres') {
           return {
@@ -43,7 +43,7 @@ const ALL_ENTITIES = [
         }
 
         return {
-          type: 'sqlite',
+          type: 'better-sqlite3',
           database: config.get<string>('DB_SQLITE_PATH', 'storage/memoai.sqlite'),
           entities: ALL_ENTITIES,
           synchronize: true,
