@@ -80,6 +80,16 @@ export class Memory {
   @Column({ type: 'float', nullable: true })
   longitude?: number;
 
+  @Column({
+    type: 'varchar',
+    length: 50,
+    default: 'regular',
+  })
+  entryType: string;
+
+  @Column({ type: 'text', nullable: true })
+  reflectionAnswers?: string;
+
   @ManyToMany(() => Tag, (tag) => tag.memories, { cascade: true })
   @JoinTable({
     name: 'memory_tags',

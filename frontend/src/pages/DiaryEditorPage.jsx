@@ -20,11 +20,12 @@ export default function DiaryEditorPage() {
   const fileInputRef = useRef(null);
   const [searchParams] = useSearchParams();
   const editId = searchParams.get('edit');
+  const dateParam = searchParams.get('date');
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [memoryDate, setMemoryDate] = useState(
-    new Date().toISOString().split('T')[0]
+    dateParam || new Date().toISOString().split('T')[0]
   );
   const [mood, setMood] = useState('Neutral');
   const [categoryId, setCategoryId] = useState('');

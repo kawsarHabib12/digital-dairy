@@ -52,6 +52,8 @@ export class MemoriesService {
       locationName: dto.locationName || null,
       latitude: dto.latitude || null,
       longitude: dto.longitude || null,
+      entryType: dto.entryType || 'regular',
+      reflectionAnswers: dto.reflectionAnswers || null,
       tags,
     });
 
@@ -93,6 +95,14 @@ export class MemoriesService {
 
     if (query.tag) {
       qb.andWhere('tags.name = :tag', { tag: query.tag.toLowerCase().trim() });
+    }
+
+    if (query.date) {
+      qb.andWhere('memory.memoryDate = :date', { date: query.date });
+    }
+
+    if (query.entryType) {
+      qb.andWhere('memory.entryType = :entryType', { entryType: query.entryType });
     }
 
     if (query.startDate && query.endDate) {
@@ -142,6 +152,80 @@ export class MemoriesService {
     return memory;
   }
 
+  async getCalendarMonth(
+    userId: string,
+    year: number,
+    month: number,
+    filter?: { mood?: string; categoryId?: string; entryType?: string },
+  ) {
+    const monthPadded = String(month).padStart(2, '0');
+    const lastDay = new Date(year, month, 0).getDate();
+    const startDate = `${year}-${monthPadded}-01`;
+    const endDate = `${year}-${monthPadded}-${String(lastDay).padStart(2, '0')}`;
+
+    const qb = this.memoryRepository
+      .createQueryBuilder('memory')
+      .leftJoinAndSelect('memory.category', 'category')
+      .leftJoinAndSelect('memory.tags', 'tags')
+      .where('memory.userId = :userId', { userId })
+      .andWhere('memory.memoryDate BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      });
+
+    if (filter?.mood) {
+      qb.andWhere('memory.mood = :mood', { mood: filter.mood });
+    }
+    if (filter?.categoryId) {
+      qb.andWhere('memory.categoryId = :categoryId', { categoryId: filter.categoryId });
+    }
+    if (filter?.entryType) {
+      qb.andWhere('memory.entryType = :entryType', { entryType: filter.entryType });
+    }
+
+    qb.orderBy('memory.memoryDate', 'ASC').addOrderBy('memory.createdAt', 'ASC');
+
+    const memories = await qb.getMany();
+
+    const daysMap: Record<
+      string,
+      { count: number; moods: string[]; entries: any[] }
+    > = {};
+
+    for (const m of memories) {
+      if (!daysMap[m.memoryDate]) {
+        daysMap[m.memoryDate] = { count: 0, moods: [], entries: [] };
+      }
+      daysMap[m.memoryDate].count++;
+      if (m.mood && !daysMap[m.memoryDate].moods.includes(m.mood)) {
+        daysMap[m.memoryDate].moods.push(m.mood);
+      }
+      daysMap[m.memoryDate].entries.push({
+        id: m.id,
+        title: m.title,
+        mood: m.mood,
+        memoryDate: m.memoryDate,
+        entryType: m.entryType || 'regular',
+        category: m.category
+          ? { id: m.category.id, name: m.category.name, color: m.category.color }
+          : null,
+        tags: m.tags ? m.tags.map((t) => t.name) : [],
+        contentPreview: m.content ? m.content.substring(0, 140) : '',
+        createdAt: m.createdAt,
+      });
+    }
+
+    return {
+      year,
+      month,
+      days: daysMap,
+    };
+  }
+
+  async findByDate(userId: string, date: string): Promise<Memory[]> {
+    return this.findAll(userId, { date });
+  }
+
   async update(userId: string, id: string, dto: UpdateMemoryDto): Promise<Memory> {
     const memory = await this.findOne(userId, id);
 
@@ -152,6 +236,9 @@ export class MemoriesService {
     if (dto.locationName !== undefined) memory.locationName = dto.locationName;
     if (dto.latitude !== undefined) memory.latitude = dto.latitude;
     if (dto.longitude !== undefined) memory.longitude = dto.longitude;
+    if (dto.entryType !== undefined) memory.entryType = dto.entryType;
+    if (dto.reflectionAnswers !== undefined)
+      memory.reflectionAnswers = dto.reflectionAnswers;
 
     if (dto.categoryId !== undefined) {
       memory.categoryId = dto.categoryId || null;

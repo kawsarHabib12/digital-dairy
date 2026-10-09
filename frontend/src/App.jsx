@@ -12,6 +12,8 @@ import TimelinePage from './pages/TimelinePage';
 import MemoryMapPage from './pages/MemoryMapPage';
 import AskDiaryPage from './pages/AskDiaryPage';
 import InsightsPage from './pages/InsightsPage';
+import DailyReflectionPage from './pages/DailyReflectionPage';
+import CalendarDiaryPage from './pages/CalendarDiaryPage';
 import LoadingState from './components/LoadingState';
 
 // Protected Route Component
@@ -96,6 +98,22 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <InsightsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <ProtectedRoute>
+                  <CalendarDiaryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reflection"
+              element={
+                <ProtectedRoute>
+                  <DailyReflectionPage />
                 </ProtectedRoute>
               }
             />

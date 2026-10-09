@@ -24,4 +24,12 @@ export class QueryMemoryDto {
   @IsOptional()
   @IsString()
   endDate?: string;
+
+  @IsOptional()
+  @IsString()
+  date?: string;
+
+  @IsOptional()
+  @IsString()
+  entryType?: string;
 }

@@ -10,7 +10,8 @@ import {
   Clock, 
   ArrowRight,
   TrendingUp,
-  Compass
+  Compass,
+  Feather
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -111,20 +112,34 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <Link
               to="/write"
-              className="px-5 py-2.5 rounded-xl bg-amber-800 text-white font-medium text-xs sm:text-sm hover:bg-amber-900 shadow-sm flex items-center space-x-2 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-amber-800 text-white font-medium text-xs sm:text-sm hover:bg-amber-900 shadow-sm flex items-center space-x-2 transition-colors"
             >
               <PenLine className="w-4 h-4" />
-              <span>Write a Memory</span>
+              <span>Write Memory</span>
+            </Link>
+            <Link
+              to="/reflection"
+              className="px-4 py-2.5 rounded-xl bg-emerald-100/80 border border-emerald-300/70 text-emerald-950 font-medium text-xs sm:text-sm hover:bg-emerald-200/80 transition-colors flex items-center space-x-2 shadow-2xs"
+            >
+              <Feather className="w-4 h-4 text-emerald-800" />
+              <span>Daily Reflection</span>
+            </Link>
+            <Link
+              to="/calendar"
+              className="px-3.5 py-2.5 rounded-xl bg-parchment-100 border border-diary-border text-diary-ink font-medium text-xs sm:text-sm hover:bg-parchment-200 transition-colors flex items-center space-x-2"
+            >
+              <Calendar className="w-4 h-4 text-amber-700" />
+              <span>Calendar</span>
             </Link>
             <Link
               to="/ask"
-              className="px-4 py-2.5 rounded-xl bg-parchment-100 border border-diary-border text-diary-ink font-medium text-xs sm:text-sm hover:bg-parchment-200 transition-colors flex items-center space-x-2"
+              className="px-3.5 py-2.5 rounded-xl bg-parchment-100 border border-diary-border text-diary-ink font-medium text-xs sm:text-sm hover:bg-parchment-200 transition-colors flex items-center space-x-2"
             >
               <Sparkles className="w-4 h-4 text-amber-700" />
-              <span>Ask My Diary</span>
+              <span>Ask Diary</span>
             </Link>
           </div>
         </div>

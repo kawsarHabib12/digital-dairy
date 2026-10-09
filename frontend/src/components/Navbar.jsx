@@ -10,7 +10,9 @@ import {
   LogOut, 
   User as UserIcon,
   Menu,
-  X
+  X,
+  Calendar,
+  Feather
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -28,6 +30,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Dashboard', path: '/dashboard', icon: BookOpen },
+    { name: 'Calendar', path: '/calendar', icon: Calendar },
+    { name: 'Reflection', path: '/reflection', icon: Feather },
     { name: 'Timeline', path: '/timeline', icon: Clock },
     { name: 'Memory Map', path: '/map', icon: Map },
     { name: 'Ask My Diary', path: '/ask', icon: Sparkles },

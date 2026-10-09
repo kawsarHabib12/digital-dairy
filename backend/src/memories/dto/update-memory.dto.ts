@@ -51,4 +51,12 @@ export class UpdateMemoryDto {
   @IsArray()
   @IsString({ each: true })
   imageUrls?: string[];
+
+  @IsOptional()
+  @IsString()
+  entryType?: string;
+
+  @IsOptional()
+  @IsString()
+  reflectionAnswers?: string;
 }

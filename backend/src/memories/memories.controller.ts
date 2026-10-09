@@ -78,6 +78,33 @@ export class MemoriesController {
     return this.memoriesService.findAll(user.id, query);
   }
 
+  @Get('calendar')
+  async getCalendar(
+    @CurrentUser() user: User,
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+    @Query('mood') mood?: string,
+    @Query('categoryId') categoryId?: string,
+    @Query('entryType') entryType?: string,
+  ) {
+    const currentYear = year ? parseInt(year, 10) : new Date().getFullYear();
+    const currentMonth = month ? parseInt(month, 10) : new Date().getMonth() + 1;
+    return this.memoriesService.getCalendarMonth(
+      user.id,
+      currentYear,
+      currentMonth,
+      { mood, categoryId, entryType },
+    );
+  }
+
+  @Get('by-date')
+  async getByDate(
+    @CurrentUser() user: User,
+    @Query('date') date: string,
+  ) {
+    return this.memoriesService.findByDate(user.id, date);
+  }
+
   @Get(':id')
   async findOne(
     @CurrentUser() user: User,
