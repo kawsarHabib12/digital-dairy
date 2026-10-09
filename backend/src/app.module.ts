@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { MemoriesModule } from './memories/memories.module';
+import { LocationsModule } from './locations/locations.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MemoriesModule } from './memories/memories.module';
     CategoriesModule,
     TagsModule,
     MemoriesModule,
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

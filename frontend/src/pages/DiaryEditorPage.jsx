@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   Save, 
@@ -8,7 +8,7 @@ import {
   Tag as TagIcon, 
   ArrowLeft,
   Sparkles,
-  Check,
+  Upload,
   X,
   Type
 } from 'lucide-react';
@@ -17,6 +17,7 @@ import { MOODS } from '../components/MoodBadge';
 
 export default function DiaryEditorPage() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const [searchParams] = useSearchParams();
   const editId = searchParams.get('edit');
 
@@ -37,8 +38,9 @@ export default function DiaryEditorPage() {
 
   const [categories, setCategories] = useState([]);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [loading, setLoading] = useState(!!editId);
-  const [fontStyle, setFontStyle] = useState('serif'); // 'serif' | 'sans' | 'handwriting'
+  const [fontStyle, setFontStyle] = useState('serif');
 
   useEffect(() => {
     // Load categories
@@ -64,7 +66,7 @@ export default function DiaryEditorPage() {
           setTags((m.tags || []).map((t) => t.name));
           setImageUrls((m.images || []).map((i) => i.imageUrl));
         })
-        .catch((err) => {
+        .catch(() => {
           alert('Could not load memory for editing');
           navigate('/dashboard');
         })
@@ -87,11 +89,38 @@ export default function DiaryEditorPage() {
     setTags(tags.filter((t) => t !== tagName));
   };
 
-  const handleAddImage = (e) => {
+  const handleAddImageUrl = (e) => {
     e.preventDefault();
     if (imageUrlInput.trim() && !imageUrls.includes(imageUrlInput.trim())) {
       setImageUrls([...imageUrls, imageUrlInput.trim()]);
       setImageUrlInput('');
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Photo must be smaller than 5MB');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    setUploadingImage(true);
+    try {
+      const res = await api.post('/memories/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      const uploadedUrl = res.data.data.imageUrl;
+      setImageUrls([...imageUrls, uploadedUrl]);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to upload photo');
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -156,7 +185,7 @@ export default function DiaryEditorPage() {
         </button>
 
         <div className="flex items-center space-x-3">
-          {/* Font style switcher */}
+          {/* Font switcher */}
           <div className="hidden sm:flex items-center bg-white rounded-xl border border-diary-border p-1 text-xs">
             <button
               type="button"
@@ -201,7 +230,6 @@ export default function DiaryEditorPage() {
 
       {/* Main Paper Diary Sheet */}
       <div className="bg-white rounded-3xl border border-diary-border shadow-diary-lg p-6 sm:p-10 paper-texture relative overflow-hidden">
-        {/* Decorative Leather Spine Border on left */}
         <div className="absolute top-0 left-0 bottom-0 w-3 bg-amber-800/80" />
 
         {/* Date, Mood, Category Row */}
@@ -292,7 +320,7 @@ export default function DiaryEditorPage() {
         </div>
 
         {/* Metadata Details (Location, Tags, Images) */}
-        <div className="pt-6 border-t border-diary-border/80 space-y-4 pl-2 text-xs">
+        <div className="pt-6 border-t border-diary-border/80 space-y-5 pl-2 text-xs">
           {/* Location row */}
           <div>
             <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
@@ -312,7 +340,7 @@ export default function DiaryEditorPage() {
                 step="any"
                 value={latitude}
                 onChange={(e) => setLatitude(e.target.value)}
-                placeholder="Latitude (e.g. 23.7275)"
+                placeholder="Latitude (e.g. 21.4272)"
                 className="px-3 py-2 rounded-xl border border-diary-border bg-parchment-50/50 text-xs text-diary-ink focus:outline-none focus:ring-1 focus:ring-amber-800"
               />
               <input
@@ -320,7 +348,7 @@ export default function DiaryEditorPage() {
                 step="any"
                 value={longitude}
                 onChange={(e) => setLongitude(e.target.value)}
-                placeholder="Longitude (e.g. 90.3954)"
+                placeholder="Longitude (e.g. 92.0058)"
                 className="px-3 py-2 rounded-xl border border-diary-border bg-parchment-50/50 text-xs text-diary-ink focus:outline-none focus:ring-1 focus:ring-amber-800"
               />
             </div>
@@ -359,33 +387,56 @@ export default function DiaryEditorPage() {
             />
           </div>
 
-          {/* Images row */}
+          {/* Photos: Upload from Device or Paste URL */}
           <div>
             <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
               <ImageIcon className="w-3.5 h-3.5 text-amber-800" />
-              <span>Photo Attachment (Image URL)</span>
+              <span>Photos & Memories</span>
             </label>
-            <div className="flex space-x-2 mb-3">
+
+            <div className="flex flex-col sm:flex-row gap-2 mb-3">
+              {/* Direct file upload input */}
               <input
-                type="url"
-                value={imageUrlInput}
-                onChange={(e) => setImageUrlInput(e.target.value)}
-                placeholder="https://images.unsplash.com/photo-..."
-                className="flex-1 px-3 py-2 rounded-xl border border-diary-border bg-parchment-50/50 text-xs text-diary-ink focus:outline-none focus:ring-1 focus:ring-amber-800"
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="image/*"
+                className="hidden"
               />
               <button
                 type="button"
-                onClick={handleAddImage}
-                className="px-4 py-2 rounded-xl bg-parchment-200 hover:bg-parchment-300 border border-diary-border text-xs font-semibold text-diary-ink transition-colors"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploadingImage}
+                className="inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-xl bg-amber-800 text-white font-medium text-xs hover:bg-amber-900 transition-colors shrink-0 shadow-xs disabled:opacity-50"
               >
-                Attach
+                <Upload className="w-3.5 h-3.5" />
+                <span>{uploadingImage ? 'Uploading...' : 'Upload Image'}</span>
               </button>
+
+              {/* URL fallback */}
+              <div className="flex flex-1 space-x-2">
+                <input
+                  type="url"
+                  value={imageUrlInput}
+                  onChange={(e) => setImageUrlInput(e.target.value)}
+                  placeholder="Or paste image URL (https://...)"
+                  className="flex-1 px-3 py-2 rounded-xl border border-diary-border bg-parchment-50/50 text-xs text-diary-ink focus:outline-none focus:ring-1 focus:ring-amber-800"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddImageUrl}
+                  className="px-3.5 py-2 rounded-xl bg-parchment-200 hover:bg-parchment-300 border border-diary-border text-xs font-semibold text-diary-ink transition-colors"
+                >
+                  Add
+                </button>
+              </div>
             </div>
 
+            {/* Uploaded Image Previews */}
             {imageUrls.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                 {imageUrls.map((url, idx) => (
-                  <div key={idx} className="relative rounded-xl overflow-hidden border border-diary-border group h-24 bg-parchment-100">
+                  <div key={idx} className="relative rounded-xl overflow-hidden border border-diary-border group h-24 bg-parchment-100 shadow-xs">
                     <img src={url} alt="Attached" className="w-full h-full object-cover" />
                     <button
                       type="button"
