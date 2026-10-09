@@ -10,6 +10,8 @@ import DiaryEditorPage from './pages/DiaryEditorPage';
 import MemoryDetailPage from './pages/MemoryDetailPage';
 import TimelinePage from './pages/TimelinePage';
 import MemoryMapPage from './pages/MemoryMapPage';
+import AskDiaryPage from './pages/AskDiaryPage';
+import InsightsPage from './pages/InsightsPage';
 import LoadingState from './components/LoadingState';
 
 // Protected Route Component
@@ -85,7 +87,7 @@ export default function App() {
               path="/ask"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <AskDiaryPage />
                 </ProtectedRoute>
               }
             />
@@ -93,7 +95,7 @@ export default function App() {
               path="/insights"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <InsightsPage />
                 </ProtectedRoute>
               }
             />
