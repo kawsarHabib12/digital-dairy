@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import DiaryEditorPage from './pages/DiaryEditorPage';
 import MemoryDetailPage from './pages/MemoryDetailPage';
+import TimelinePage from './pages/TimelinePage';
 import LoadingState from './components/LoadingState';
 
 // Protected Route Component
@@ -67,7 +68,7 @@ export default function App() {
               path="/timeline"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <TimelinePage />
                 </ProtectedRoute>
               }
             />
@@ -97,7 +98,7 @@ export default function App() {
             />
           </Route>
 
-          {/* Auth Pages (Clean full-page layout) */}
+          {/* Auth Pages */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
