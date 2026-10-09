@@ -9,6 +9,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { MemoriesModule } from './memories/memories.module';
 import { LocationsModule } from './locations/locations.module';
+import { AiModule } from './ai/ai.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { LocationsModule } from './locations/locations.module';
     TagsModule,
     MemoriesModule,
     LocationsModule,
+    AiModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
