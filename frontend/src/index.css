@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAF7F2;
+    color: #1F1E1D;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Paper diary texture and styling */
+.paper-texture {
+  background-color: #FFFFFF;
+  background-image: radial-gradient(#EFE9DE 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+.paper-line {
+  background-image: linear-gradient(#F0ECE1 1px, transparent 1px);
+  background-size: 100% 28px;
+  line-height: 28px;
+}

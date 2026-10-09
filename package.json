@@ -1,0 +1,30 @@
+{
+  "name": "memoai",
+  "version": "1.0.0",
+  "description": "MemoAI — AI-Powered Digital Diary",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run start:dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend run build",
+    "build": "npm run build:backend && npm run build:frontend",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "lint:backend": "npm --prefix backend run lint",
+    "lint": "npm run lint:frontend && npm run lint:backend"
+  },
+  "keywords": [
+    "digital-diary",
+    "memoai",
+    "ai",
+    "react",
+    "nestjs",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC"
+}
