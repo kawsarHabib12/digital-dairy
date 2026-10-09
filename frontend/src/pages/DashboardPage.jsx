@@ -243,7 +243,7 @@ export default function DashboardPage() {
                   >
                     <div className="w-2 h-2 rounded-full bg-amber-700 mt-1.5 shrink-0 group-hover:scale-125 transition-transform" />
                     <div>
-                      <p className="text-diary-muted font-medium text-[11px]">
+                      <p className="text-diary-muted font-medium text-xs">
                         {new Date(m.memoryDate).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',

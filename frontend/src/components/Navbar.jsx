@@ -44,7 +44,7 @@ export default function Navbar() {
                 MemoAI
               </span>
             </div>
-            <p className="text-[10px] text-diary-muted font-medium hidden sm:block tracking-wide">
+            <p className="text-xs text-diary-muted font-medium hidden sm:block tracking-wide">
               Your Intelligent Diary
             </p>
           </div>

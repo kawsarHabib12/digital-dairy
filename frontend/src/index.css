@@ -4,10 +4,24 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-size: 18px; /* Increases overall website text size by ~12.5% */
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 16.5px;
+    }
+  }
+
   body {
     background-color: #FAF7F2;
     color: #1F1E1D;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, .font-serif {
@@ -24,8 +38,8 @@
 
 .paper-line {
   background-image: linear-gradient(#F0ECE1 1px, transparent 1px);
-  background-size: 100% 28px;
-  line-height: 28px;
+  background-size: 100% 32px;
+  line-height: 32px;
 }
 
 /* Leaflet map styles */

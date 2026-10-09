@@ -31,7 +31,7 @@ export default function MemoryCard({
           <div className="flex items-center space-x-2">
             {memory.category && (
               <span
-                className="text-[11px] font-semibold px-2 py-0.5 rounded-full border"
+                className="text-xs font-semibold px-2.5 py-0.5 rounded-full border"
                 style={{
                   backgroundColor: `${memory.category.color}15` || '#f3f4f6',
                   color: memory.category.color || '#374151',
@@ -86,7 +86,7 @@ export default function MemoryCard({
                 <TagBadge key={t.id || t.name} name={t.name} />
               ))}
               {memory.tags.length > 2 && (
-                <span className="text-[10px] text-diary-muted font-medium">
+                <span className="text-xs text-diary-muted font-medium">
                   +{memory.tags.length - 2}
                 </span>
               )}

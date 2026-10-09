@@ -236,7 +236,7 @@ export default function DiaryEditorPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 pb-6 border-b border-diary-border/80 pl-2">
           {/* Date Picker */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
               Memory Date
             </label>
             <div className="relative">
@@ -253,7 +253,7 @@ export default function DiaryEditorPage() {
 
           {/* Mood Selector */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
               How did you feel?
             </label>
             <select
@@ -271,7 +271,7 @@ export default function DiaryEditorPage() {
 
           {/* Category Selector */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5">
               Category
             </label>
             <select
@@ -323,7 +323,7 @@ export default function DiaryEditorPage() {
         <div className="pt-6 border-t border-diary-border/80 space-y-5 pl-2 text-xs">
           {/* Location row */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
               <MapPin className="w-3.5 h-3.5 text-amber-800" />
               <span>Location (Optional)</span>
             </label>
@@ -356,7 +356,7 @@ export default function DiaryEditorPage() {
 
           {/* Tags row */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
               <TagIcon className="w-3.5 h-3.5 text-amber-800" />
               <span>Tags (Press Enter to add)</span>
             </label>
@@ -389,7 +389,7 @@ export default function DiaryEditorPage() {
 
           {/* Photos: Upload from Device or Paste URL */}
           <div>
-            <label className="block text-[11px] font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
+            <label className="block text-xs font-semibold text-diary-muted uppercase tracking-wider mb-1.5 flex items-center space-x-1">
               <ImageIcon className="w-3.5 h-3.5 text-amber-800" />
               <span>Photos & Memories</span>
             </label>
